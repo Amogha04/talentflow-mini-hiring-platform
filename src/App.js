@@ -6,7 +6,8 @@ import JobDetail from "./pages/JobDetail";
 import CandidatesPage from "./pages/CandidatesPage";
 import CandidateProfile from "./pages/CandidateProfile";
 import CandidateKanban from "./pages/CandidateKanban";
-
+import AssessmentPage from "./pages/AssessmentPage";
+import AssessmentPreview from "./pages/AssessmentPreview";
 
 function Placeholder({ title }) {
   return <h2 className="text-center mt-5">{title} Page (Coming Soon)</h2>;
@@ -31,11 +32,12 @@ function App() {
         <Routes>
           <Route path="/jobs" element={<JobsPage />} />
           <Route path="/candidates" element={<CandidatesPage />} />
-          <Route path="/assessments" element={<Placeholder title="Assessments" />} />
+           <Route path="/assessments/:jobId" element={<AssessmentPage />} />
           <Route path="*" element={<JobsPage />} />
           <Route path="/jobs/:jobId" element={<JobDetail />} />
           <Route path="/candidates/:id" element={<CandidateProfile />} />
           <Route path="/candidates/kanban" element={<CandidateKanban />} />
+          <Route path="/assessments/:jobId/preview" element={<AssessmentPreview />} />
         </Routes>
       </div>
     </Router>
