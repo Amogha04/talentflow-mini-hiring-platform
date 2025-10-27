@@ -1,45 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Badge, Card } from "react-bootstrap";
 
 function JobsPage() {
+  // --- State management ---
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
   const [newJob, setNewJob] = useState({ title: "", slug: "", status: "active" });
 
+  // --- Fetch jobs when page loads ---
+  useEffect(() => {
+    fetch("/api/jobs")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load jobs");
+        return res.json();
+      })
+      .then((data) => {
+        setJobs(data.jobs);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  // --- Early returns for loading/error states ---
+  if (loading)
+  return (
+    <div className="text-center mt-5">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+      <p className="mt-3">Loading jobs...</p>
+    </div>
+  );
+
+  if (error) return <p className="text-center text-danger mt-5">{error}</p>;
+
+  // --- Handle form input change ---
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewJob({ ...newJob, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  // --- Add or update job ---
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newJob.title) return alert("Title is required!");
 
-    if (editingJob) {
-      const updatedJobs = jobs.map((job) =>
-        job.id === editingJob.id ? { ...editingJob, ...newJob } : job
-      );
-      setJobs(updatedJobs);
-      setEditingJob(null);
-    } else {
-      const newEntry = {
-        id: Date.now(),
-        ...newJob,
-      };
-      setJobs([...jobs, newEntry]);
-    }
+    try {
+      const res = await fetch("/api/jobs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newJob),
+      });
 
-    setNewJob({ title: "", slug: "", status: "active" });
-    setShowModal(false);
+      if (!res.ok) throw new Error("Failed to add job");
+      const data = await res.json();
+
+      setJobs([...jobs, data.job]);
+      setNewJob({ title: "", slug: "", status: "active" });
+      setShowModal(false);
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
   };
 
+  // --- Edit job handler ---
   const handleEdit = (job) => {
     setEditingJob(job);
     setNewJob({ title: job.title, slug: job.slug, status: job.status });
     setShowModal(true);
   };
 
+  // --- Archive/unarchive handler ---
   const handleArchiveToggle = (id) => {
     setJobs(
       jobs.map((job) =>
@@ -53,6 +90,7 @@ function JobsPage() {
     );
   };
 
+  // --- Render UI ---
   return (
     <div className="container mt-4">
       <Card className="shadow-sm">
@@ -105,7 +143,7 @@ function JobsPage() {
         </Card.Body>
       </Card>
 
-      {/* Add/Edit Modal */}
+      {/* --- Add/Edit Modal --- */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{editingJob ? "Edit Job" : "Add Job"}</Modal.Title>
