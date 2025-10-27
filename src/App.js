@@ -6,6 +6,7 @@ import JobDetail from "./pages/JobDetail";
 import CandidatesPage from "./pages/CandidatesPage";
 import CandidateProfile from "./pages/CandidateProfile";
 import CandidateKanban from "./pages/CandidateKanban";
+import AssessmentsPage from "./pages/AssessmentsPage";
 import AssessmentPage from "./pages/AssessmentPage";
 import AssessmentPreview from "./pages/AssessmentPreview";
 
@@ -32,6 +33,7 @@ function App() {
         <Routes>
           <Route path="/jobs" element={<JobsPage />} />
           <Route path="/candidates" element={<CandidatesPage />} />
+          <Route path="/assessments" element={<AssessmentsPage />} />
            <Route path="/assessments/:jobId" element={<AssessmentPage />} />
           <Route path="*" element={<JobsPage />} />
           <Route path="/jobs/:jobId" element={<JobDetail />} />

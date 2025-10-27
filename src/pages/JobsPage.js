@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Badge, Card, InputGroup } from "react-bootstrap";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { Link } from "react-router-dom"
 
 function JobsPage() {
   // --- State management ---
@@ -214,19 +215,14 @@ function JobsPage() {
                             {...providedDraggable.dragHandleProps}
                             className="list-group-item d-flex justify-content-between align-items-center"
                           >
-                            <div>
-                              <strong>{job.title}</strong>{" "}
-                              <Badge
-                                bg={
-                                  job.status === "active"
-                                    ? "success"
-                                    : "secondary"
-                                }
-                              >
-                                {job.status}
-                              </Badge>
-                              <div className="small text-muted">{job.slug}</div>
-                            </div>
+<div>
+  <Link to={`/jobs/${job.id}`} style={{ textDecoration: "none" }}>
+    <strong>{job.title}</strong>
+  </Link>{" "}
+  <Badge bg={job.status === "active" ? "success" : "secondary"}>{job.status}</Badge>
+  <div className="small text-muted">{job.slug}</div>
+</div>
+
                             <div>
                               <Button
                                 variant="outline-secondary"
