@@ -5,7 +5,7 @@
 ---
 
 ## 🚀 Live Demo
-🔗 [Live App](#) *(to be added after deployment)*  
+🔗 [Live App](#) https://talentflow-mini-hiring-platform-5oowmf9id.vercel.app/
 💻 [GitHub Repository](https://github.com/Amogha04/talentflow-mini-hiring-platform)
 
 ---
