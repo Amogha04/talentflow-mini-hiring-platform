@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import JobsPage from "./pages/JobsPage";
 import JobDetail from "./pages/JobDetail";
+import CandidatesPage from "./pages/CandidatesPage";
+import CandidateProfile from "./pages/CandidateProfile";
+import CandidateKanban from "./pages/CandidateKanban";
+
 
 function Placeholder({ title }) {
   return <h2 className="text-center mt-5">{title} Page (Coming Soon)</h2>;
@@ -26,10 +30,12 @@ function App() {
 
         <Routes>
           <Route path="/jobs" element={<JobsPage />} />
-          <Route path="/candidates" element={<Placeholder title="Candidates" />} />
+          <Route path="/candidates" element={<CandidatesPage />} />
           <Route path="/assessments" element={<Placeholder title="Assessments" />} />
           <Route path="*" element={<JobsPage />} />
           <Route path="/jobs/:jobId" element={<JobDetail />} />
+          <Route path="/candidates/:id" element={<CandidateProfile />} />
+          <Route path="/candidates/kanban" element={<CandidateKanban />} />
         </Routes>
       </div>
     </Router>
