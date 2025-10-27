@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import JobsPage from "./pages/JobsPage";
+import JobDetail from "./pages/JobDetail";
 
 function Placeholder({ title }) {
   return <h2 className="text-center mt-5">{title} Page (Coming Soon)</h2>;
@@ -28,6 +29,7 @@ function App() {
           <Route path="/candidates" element={<Placeholder title="Candidates" />} />
           <Route path="/assessments" element={<Placeholder title="Assessments" />} />
           <Route path="*" element={<JobsPage />} />
+          <Route path="/jobs/:jobId" element={<JobDetail />} />
         </Routes>
       </div>
     </Router>
